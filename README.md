@@ -54,6 +54,7 @@ exemplos :
 
 - Ruim : 
 ```javascript
+# src/store/usuario/actions.js
 import * as types from './types'                                                                                                                               
                                                                                                                                                                    
 export const dadosMenu = ({ commit }) => {                                                                                                                             
@@ -67,6 +68,7 @@ export const usuario = ({ commit }, params) => {
 
 - Bom : 
 ```javascript
+# src/store/usuario/actions.js
 import * as types from './types'                                                                                                                               
                                                                                                                                                                    
 export const synUsuarioAction = ({ commit }, params) => {                                                                                                                             
