@@ -39,8 +39,8 @@ src
 ```
 
 ## Modulos
-Recomendamos usar modulos no Vuex (https://vuex.vuejs.org/guide/modules.html)
-Não Recomendamos do "state" global dentro do Vuex, para cumprir essa função se necessario usamos o modulo "global" para conter todas as informações no "state", que não tenham um modulo especifico.  
+Recomendamos usar modulos no Vuex (https://vuex.vuejs.org/guide/modules.html)   
+Não Recomendamos do "state" global dentro do Vuex, para cumprir essa função se necessario usamos o modulo "global" para conter todas as informações no "state", que não tenham um modulo especifico.    
 Recomendamos usar ```namespaced: true ``` essa configuração facilita a localização e entedimento de onde estão as "actions".  
 
 ```bash
