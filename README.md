@@ -6,11 +6,42 @@ Tenho por interesse criar um guia com remendações gerais de como criar uma est
 A ferramenta recomendada é o [axios](https://github.com/axios/axios).
 
 ## Pastas
-Devemos colocar todas as estruturas do Vuex dentro de uma pasta unica pasta (store) dentro do sistema. 
+Recomendamos colocar todas as estruturas do Vuex dentro de uma pasta unica pasta com o nome "store" dentro da pasta "src". 
   - Isso é motivado pela caracteristica centralizadora da arquitetura de controle de estado do Vuex.
-Usar namespace e modulos parece ser a melhor alternativa para dividir os dados. [doc](https://vuex.vuejs.org/guide/modules.html)
-Recomendamos os uso da configuração (namespaced: true) dentro dos modulos para facilitar a localização das "actions"
-Apesar de ser possivel criar "states" em escopo global com Vuex e modulos, optamos por deixar tudo dentro de modulos, se existir alguma necessidade/problemas criamos o "modulo global" que poderia simular o escopo global.
+
+**Boa estrutura:**
+```bash
+src
+ ├── App.vue
+ ├── components
+ ├── main.js
+ ├── router.js
+ ├── store # <-- Todas as estruturas do Vuex (Actions, Mutations, Types, Getters)
+ │   ├── eventos  # <-- Modulos
+ │   │   ├── actions.js
+ │   │   ├── getters.js
+ │   │   ├── index.js
+ │   │   ├── mutations.js
+ │   │   └── types.js
+ │   ├── global   # <-- Modulos Global, contendo versão do produto, variaveis de cortes, etc
+ │   │   ├── actions.js
+ │   │   ├── getters.js
+ │   │   ├── index.js
+ │   │   ├── mutations.js
+ │   │   └── types.js
+ │   └── usuario   # <-- Modulos
+ │       ├── actions.js
+ │       ├── getters.js
+ │       ├── index.js
+ │       ├── mutations.js
+ │       └── types.js
+ └── store.js
+```
+
+## Modulos
+Recomendamos usar modulos no Vuex (https://vuex.vuejs.org/guide/modules.html)
+Não Recomendamos do "state" global dentro do Vuex, para cumprir essa função se necessario usamos o modulo "global" para conter todas as informações no "state", que não tenham um modulo especifico.  
+Recomendamos usar ```namespaced: true ``` essa configuração facilita a localização e entedimento de onde estão as "actions".  
 
 ```bash
 src
@@ -41,7 +72,7 @@ src
 ```
 
 ## Constantes globais.
-Não usar o Vuex para constantes, exemplo: PI = 3.14, APP_NAME = 'Vuex Style Guide', preferir abaordar essas constantes com outra estrategia. 
+Não Recomendamos usar o Vuex para constantes, exemplo: PI = 3.14, APP_NAME = 'Vuex Style Guide', preferir abaordar essas constantes com outra estrategia. 
 
 ## Actions 
 ### Nomes
@@ -94,8 +125,9 @@ export const removeUsuarioAction = ({ commit }, params) => {
 
 ```
 
-Uma action não é obrigada a fazer um "commit", mas vamos convercionar que sim, essa e unica forma de registrar dentro do plugin Vue no navergador.
-Actions devem sempre chamar outras actions com "dispatch", preferivel ao retornar uma promise e deixar a cargo do componente, isso quebra o isolamente da action, e deixa ela quase sem possibildiade de ser reaproveitada
+Recomendamos que toda "action" tenha um commit, pois é nesse momento que podemos rastrear as alterações feitas no "state".  
+
+Recomendamos não usar ```return new Promise() ``` dentro das "actions", eveitando assim compartilhar/delegar para outros componentes o tratamento do sucesso e erros do AJAX, usar dispatch seria a opção.
 
 ## Mutations
 ### Types
@@ -113,7 +145,3 @@ export const REMOVE_USUARIO = 'REMOVE_USUARIO'
 
 ## Commit
 - Sempre tratar erros nos ajax para não deixar o "state" incosistente, com dados desatualizados, então lembre dos retornos dos axios (.then, .catch)
-
-## Atomico
-- Sempre que possivel deixe a camada de "actions" menos complexa, cuidado apenas da parte assincrona, deixa a maior para das transformações para as "mutations".
-- Tenha em mente que o "state" deveria ser compartilhado para todos os componentes, nomes pouco genericos, e muito logica atrapalham.
